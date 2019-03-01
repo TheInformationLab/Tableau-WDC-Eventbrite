@@ -4,10 +4,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const BuildNumber = require('./src/js/tableauwdc/DevUtils/BuildNumber.js');
 
 const extractPlugin = new ExtractTextPlugin({
   filename: 'main.css',
 });
+
+const buildNum = BuildNumber.getBuildNumber().toString();
 
 module.exports = {
   entry: [
@@ -33,20 +36,9 @@ module.exports = {
         },
       },
       {
-        test: require.resolve('./src/js/tableauwdc-2.3.latest.min.js'),
-        use: 'exports-loader?tableau',
-      },
-      {
         test: /\.js$/,
         exclude: [/node_modules/, /vendors/],
-        use: [
-          {
-            loader: 'babel-loader',
-            // options: {
-            //   presets: ['env','@babel/preset-env'],
-            // },
-          },
-        ],
+        loader: 'babel-loader',
       },
       {
         test: /.scss?$/,
@@ -92,14 +84,15 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: 'src/index.html',
     }),
+    new webpack.DefinePlugin({
+      BUILD_NUMBER: JSON.stringify(buildNum),
+    }),
     new CleanWebpackPlugin(['dist']),
     new CopyWebpackPlugin([{ from: 'src/vendors/mdb/mdb-addons', to: 'mdb-addons' }]),
     new CopyWebpackPlugin([{ from: 'src/img', to: 'img' }]),
     new CopyWebpackPlugin([{ from: 'now.json', to: 'now.json' }]),
     new CopyWebpackPlugin([{ from: 'src/api', to: 'api' }]),
     new CopyWebpackPlugin([{ from: 'src/js/async.min.js', to: 'js/async.min.js' }]),
-    new CopyWebpackPlugin([{ from: 'src/js/schema.js', to: 'js/schema.js' }]),
-    new CopyWebpackPlugin([{ from: 'src/js/tableauwdc-2.3.latest.min.js', to: 'js/tableauwdc-2.3.latest.min.js' }]),
     new CopyWebpackPlugin([{ from: 'package-deploy.json', to: 'package.json' }]),
   ],
   devtool: 'source-map',
