@@ -7,19 +7,307 @@ import 'bootstrap';
 // Material Design Bootstrap
 import '../vendors/mdb/js/mdb';
 
-const { schema } = require('./schema');
+const tableauwdc = require('./tableauwdc/tableauwdc.js');
+
+tableauwdc.init();
+
+const { tableau } = window;
 
 const { async } = window;
 
+const schOrganisation = [{
+  id: '_type',
+  alias: 'Type',
+  dataType: 'string',
+}, {
+  id: 'name',
+  alias: 'Name',
+  dataType: 'string',
+}, {
+  id: 'vertical',
+  alias: 'Business Vertical',
+  dataType: 'string',
+}, {
+  id: 'locale',
+  alias: 'Locale',
+  dataType: 'string',
+}, {
+  id: 'image_id',
+  alias: 'Image ID',
+  dataType: 'string',
+}, {
+  id: 'id',
+  alias: 'Organisation ID',
+  dataType: 'string',
+}];
+
+const schEvent = [{
+  id: 'name_text',
+  alias: 'Name (Text)',
+  dataType: 'string',
+}, {
+  id: 'name_html',
+  alias: 'Name (HTML)',
+  dataType: 'string',
+}, {
+  id: 'description_text',
+  alias: 'Description (Text)',
+  dataType: 'string',
+}, {
+  id: 'description_html',
+  alias: 'Description (HTML)',
+  dataType: 'string',
+}, {
+  id: 'id',
+  alias: 'Event ID',
+  dataType: 'string',
+}, {
+  id: 'url',
+  alias: 'Event URL',
+  dataType: 'string',
+}, {
+  id: 'start_timezone',
+  alias: 'Start Timezone',
+  dataType: 'string',
+}, {
+  id: 'start_local',
+  alias: 'Start Time (Local)',
+  dataType: 'datetime',
+}, {
+  id: 'start_utc',
+  alias: 'Start Time (UTC)',
+  dataType: 'datetime',
+}, {
+  id: 'end_timezone',
+  alias: 'End Timezone',
+  dataType: 'string',
+}, {
+  id: 'end_local',
+  alias: 'End Time (Local)',
+  dataType: 'datetime',
+}, {
+  id: 'end_utc',
+  alias: 'End Time (UTC)',
+  dataType: 'datetime',
+}, {
+  id: 'organization_id',
+  alias: 'Organisation ID',
+  dataType: 'string',
+}, {
+  id: 'created',
+  alias: 'Created',
+  dataType: 'datetime',
+}, {
+  id: 'changed',
+  alias: 'Changed',
+  dataType: 'datetime',
+}, {
+  id: 'capacity',
+  alias: 'Capacity',
+  dataType: 'int',
+}, {
+  id: 'status',
+  alias: 'Status',
+  dataType: 'string',
+}, {
+  id: 'currency',
+  alias: 'Currency',
+  dataType: 'string',
+}, {
+  id: 'listed',
+  alias: 'Publicly Searchable?',
+  dataType: 'bool',
+}, {
+  id: 'shareable',
+  alias: 'Social Sharing Buttons?',
+  dataType: 'bool',
+}, {
+  id: 'invite_only',
+  alias: 'Invite Only?',
+  dataType: 'bool',
+}, {
+  id: 'online_event',
+  alias: 'Online Event?',
+  dataType: 'bool',
+}, {
+  id: 'show_remaining',
+  alias: 'Show Remaining Tickets?',
+  dataType: 'bool',
+}, {
+  id: 'is_locked',
+  alias: 'Event Locked?',
+  dataType: 'bool',
+}, {
+  id: 'privacy_setting',
+  alias: 'Event Privacy Setting',
+  dataType: 'string',
+}, {
+  id: 'is_series',
+  alias: 'Event Series?',
+  dataType: 'bool',
+}, {
+  id: 'is_free',
+  alias: 'Free Event?',
+  dataType: 'bool',
+}, {
+  id: 'logo_id',
+  alias: 'Logo ID',
+  dataType: 'string',
+}, {
+  id: 'organizer_id',
+  alias: 'Organiser ID',
+  dataType: 'string',
+}, {
+  id: 'venue_id',
+  alias: 'Venue ID',
+  dataType: 'string',
+}, {
+  id: 'category_id',
+  alias: 'Category ID',
+  dataType: 'string',
+}];
+
+const schAttendee = [{
+  id: 'id',
+  alias: 'Attendee ID',
+  dataType: 'string',
+}, {
+  id: 'changed',
+  alias: 'Changed',
+  dataType: 'datetime',
+}, {
+  id: 'created',
+  alias: 'Created',
+  dataType: 'datetime',
+}, {
+  id: 'quantity',
+  alias: 'Qty',
+  dataType: 'int',
+}, {
+  id: 'first_name',
+  alias: 'First Name',
+  dataType: 'string',
+}, {
+  id: 'last_name',
+  alias: 'Last Name',
+  dataType: 'string',
+}, {
+  id: 'company',
+  alias: 'Company',
+  dataType: 'string',
+}, {
+  id: 'name',
+  alias: 'Full Name',
+  dataType: 'string',
+}, {
+  id: 'email',
+  alias: 'Email',
+  dataType: 'string',
+}, {
+  id: 'job_title',
+  alias: 'Job Title',
+  dataType: 'string',
+}, {
+  id: 'checked_in',
+  alias: 'Checked In?',
+  dataType: 'bool',
+}, {
+  id: 'cancelled',
+  alias: 'Cancelled?',
+  dataType: 'bool',
+}, {
+  id: 'refunded',
+  alias: 'Refunded?',
+  dataType: 'bool',
+}, {
+  id: 'status',
+  alias: 'Status',
+  dataType: 'string',
+}, {
+  id: 'ticket_class_name',
+  alias: 'Ticket Class',
+  dataType: 'string',
+}, {
+  id: 'event_id',
+  alias: 'Event ID',
+  dataType: 'string',
+}, {
+  id: 'order_id',
+  alias: 'Order ID',
+  dataType: 'string',
+}];
+
+const tblMyOrganisations = {
+  id: 'myOrganisations',
+  alias: 'My Organisations',
+  columns: schOrganisation,
+};
+
+const tblMyEvents = {
+  id: 'myEvents',
+  alias: 'My Events',
+  columns: schEvent,
+};
+
+const tblMyAttendees = {
+  id: 'myAttendees',
+  alias: 'My Attendees',
+  columns: schAttendee,
+};
+
+const attendeesbyMyEventsOrganisations = {
+  alias: 'Attendees by My Organisations & Events',
+  tables: [{
+    id: tblMyOrganisations.id,
+    alias: tblMyOrganisations.alias,
+  }, {
+    id: tblMyEvents.id,
+    alias: tblMyEvents.alias,
+  }, {
+    id: tblMyAttendees.id,
+    alias: tblMyAttendees.alias,
+  }],
+  joins: [{
+    left: {
+      tableAlias: tblMyOrganisations.alias,
+      columnId: 'id',
+    },
+    right: {
+      tableAlias: tblMyEvents.alias,
+      columnId: 'organization_id',
+    },
+    joinType: 'inner',
+  }, {
+    left: {
+      tableAlias: tblMyEvents.alias,
+      columnId: 'id',
+    },
+    right: {
+      tableAlias: tblMyAttendees.alias,
+      columnId: 'event_id',
+    },
+    joinType: 'left',
+  }],
+};
+
+const schema = {
+  tables: [
+    tblMyOrganisations,
+    tblMyEvents,
+    tblMyAttendees,
+  ],
+  joins: [
+    attendeesbyMyEventsOrganisations,
+  ],
+};
+
+
 let authUrl = 'https://www.eventbrite.com/oauth/authorize?response_type=code&client_id=JBPF3IE2KZRNFNGHEI';
 let serverBase = '';
-let proxyBase = '';
-let tableau;
 
-if (window.location.host !== 'eventbrite-wdc.theinformationlab.io') {
+if (window.location.host !== 'eventbrite-wdc.theinformationlab.io' && window.location.host !== 'eventbrite.wdc.dev') {
   authUrl = 'https://www.eventbrite.com/oauth/authorize?response_type=code&client_id=ELT6SJD5DOE42FQTHU';
-  serverBase = 'http://localhost:3001';
-  proxyBase = 'http://localhost:3002';
+  serverBase = 'https://eventbrite.wdc.dev';
 }
 
 // **
@@ -68,14 +356,9 @@ function getTokens(code, callback) {
 
 function tokensValid(callback) {
   const creds = JSON.parse(tableau.password);
-  const url = 'https://www.eventbriteapi.com/v3/users/me';
   const settings = {
-    url: `${proxyBase}/proxy`,
+    url: `${serverBase}/api/users/me?token=${creds.access_token}`,
     method: 'GET',
-    headers: {
-      Authorization: `Bearer ${creds.access_token}`,
-      'Target-URL': url,
-    },
   };
   $.ajax(settings).done((response) => {
     if (response && response.name) {
@@ -91,28 +374,10 @@ function checkTokens(callback) {
     if (result) {
       callback();
     } else {
-      tableau.error('Eventbrite user session invalid. Login again');
+      tableau.abortWithError('Eventbrite user session invalid. Login again');
     }
   });
 }
-
-// Function getCurrentUser
-//  - Gets details about the current logged in user
-// @callback    {object}  JSON Object about the current user
-// function getCurrentUser(callback) {
-//   const settings = {
-//     url: `${proxyBase}/proxy`,
-//     method: 'GET',
-//     headers: {
-//       Authorization: `Bearer ${tableau.password}`,
-//       'Target-URL': 'https://www.eventbriteapi.com/v3/users/me',
-//     },
-//   };
-//
-//   $.ajax(settings).done((response) => {
-//     callback(response);
-//   });
-// }
 
 // Function getMyOrganisations
 //  - Gets organisations associated with the current user
@@ -120,41 +385,33 @@ function checkTokens(callback) {
 // @data          {array}   Optional, data already downloaded and passed on for paging
 // @continuation  {string}  Continuation token for next page of data
 function getMyOrganisations(callback, data, page, continuation) {
-  checkTokens(() => {
-    const creds = JSON.parse(tableau.password);
-    const url = 'https://www.eventbriteapi.com/v3/users/me/organizations';
-    let pg = page;
-    if (!page) {
-      pg = 1;
-    }
-    let params = '';
-    if (continuation) {
-      params = `?page=${pg}&continuation=${continuation}`;
-    }
-    const settings = {
-      url: `${proxyBase}/proxy${params}`,
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${creds.access_token}`,
-        'Target-URL': url,
-      },
-    };
+  const creds = JSON.parse(tableau.password);
+  let pg = page;
+  if (!page) {
+    pg = 1;
+  }
+  let params = '';
+  if (continuation) {
+    params = `&page=${pg}&continuation=${continuation}`;
+  }
+  const settings = {
+    url: `${serverBase}/api/me/organizations?token=${creds.access_token}${params}`,
+    method: 'GET',
+  };
 
-    $.ajax(settings).done((response) => {
-      let organisations = [];
-      if (data) {
-        organisations = data;
-      }
-      if (response.organizations && response.organizations.length > 0) {
-        console.log(organisations);
-        organisations = organisations.concat(response.organizations);
-      }
-      if (response.pagination.has_more_items && response.pagination.continuation) {
-        getMyOrganisations(callback, organisations, page + 1, response.pagination.continuation);
-      } else {
-        callback(organisations);
-      }
-    });
+  $.ajax(settings).done((response) => {
+    let organisations = [];
+    if (data) {
+      organisations = data;
+    }
+    if (response.organizations && response.organizations.length > 0) {
+      organisations = organisations.concat(response.organizations);
+    }
+    if (response.pagination.has_more_items && response.pagination.continuation) {
+      getMyOrganisations(callback, organisations, page + 1, response.pagination.continuation);
+    } else {
+      callback(organisations);
+    }
   });
 }
 
@@ -164,75 +421,68 @@ function getMyOrganisations(callback, data, page, continuation) {
 // @data          {array}   Optional, data already downloaded and passed on for paging
 // @continuation  {string}  Continuation token for next page of data
 function getMyEvents(callback, data, page, continuation) {
-  checkTokens(() => {
-    const creds = JSON.parse(tableau.password);
-    const url = 'https://www.eventbriteapi.com/v3/users/me/owned_events';
-    let pg = page;
-    if (!page) {
-      pg = 1;
-    }
-    let params = '';
-    if (continuation) {
-      params = `?page=${pg}&continuation=${continuation}`;
-    }
-    const settings = {
-      url: `${proxyBase}/proxy${params}`,
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${creds.access_token}`,
-        'Target-URL': url,
-      },
-    };
+  const creds = JSON.parse(tableau.password);
+  let pg = page;
+  if (!page) {
+    pg = 1;
+  }
+  let params = '';
+  if (continuation) {
+    params = `&page=${pg}&continuation=${continuation}`;
+  }
+  const settings = {
+    url: `${serverBase}/api/me/ownedevents?token=${creds.access_token}${params}`,
+    method: 'GET',
+  };
 
-    $.ajax(settings).done((response) => {
-      let events = [];
-      if (data) {
-        events = data;
+  $.ajax(settings).done((response) => {
+    let events = [];
+    if (data) {
+      events = data;
+    }
+    if (response.events && response.events.length > 0) {
+      for (let i = 0; i < response.events.length; i += 1) {
+        const record = {};
+        const event = response.events[i];
+        record.name_text = event.name.text;
+        record.name_html = event.name.html;
+        record.description_text = event.description.text;
+        record.description_html = event.description.html;
+        record.id = event.id;
+        record.url = event.url;
+        record.start_timezone = event.start.timezone;
+        record.start_local = convertDateTime(event.start.local);
+        record.start_utc = convertDateTime(event.start.utc);
+        record.end_timezone = event.end.timezone;
+        record.end_local = convertDateTime(event.end.local);
+        record.end_utc = convertDateTime(event.end.utc);
+        record.organization_id = event.organization_id;
+        record.created = convertDateTime(event.created);
+        record.changed = convertDateTime(event.changed);
+        record.capacity = event.capacity;
+        record.status = event.status;
+        record.currency = event.currency;
+        record.listed = event.listed;
+        record.shareable = event.shareable;
+        record.invite_only = event.invite_only;
+        record.online_event = event.online_event;
+        record.show_remaining = event.show_remaining;
+        record.is_locked = event.is_locked;
+        record.privacy_setting = event.privacy_setting;
+        record.is_series = event.is_series;
+        record.is_free = event.is_free;
+        record.logo_id = event.logo_id;
+        record.organizer_id = event.organizer_id;
+        record.venue_id = event.venue_id;
+        record.category_id = event.category_id;
+        events.push(record);
       }
-      if (response.events && response.events.length > 0) {
-        for (let i = 0; i < response.events.length; i += 1) {
-          const record = {};
-          const event = response.events[i];
-          record.name_text = event.name.text;
-          record.name_html = event.name.html;
-          record.description_text = event.description.text;
-          record.description_html = event.description.html;
-          record.id = event.id;
-          record.url = event.url;
-          record.start_timezone = event.start.timezone;
-          record.start_local = convertDateTime(event.start.local);
-          record.start_utc = convertDateTime(event.start.utc);
-          record.end_timezone = event.end.timezone;
-          record.end_local = convertDateTime(event.end.local);
-          record.end_utc = convertDateTime(event.end.utc);
-          record.organization_id = event.organization_id;
-          record.created = convertDateTime(event.created);
-          record.changed = convertDateTime(event.changed);
-          record.capacity = event.capacity;
-          record.status = event.status;
-          record.currency = event.currency;
-          record.listed = event.listed;
-          record.shareable = event.shareable;
-          record.invite_only = event.invite_only;
-          record.online_event = event.online_event;
-          record.show_remaining = event.show_remaining;
-          record.is_locked = event.is_locked;
-          record.privacy_setting = event.privacy_setting;
-          record.is_series = event.is_series;
-          record.is_free = event.is_free;
-          record.logo_id = event.logo_id;
-          record.organizer_id = event.organizer_id;
-          record.venue_id = event.venue_id;
-          record.category_id = event.category_id;
-          events.push(record);
-        }
-      }
-      if (response.pagination.has_more_items && response.pagination.continuation) {
-        getMyEvents(callback, events, page + 1, response.pagination.continuation);
-      } else {
-        callback(events);
-      }
-    });
+    }
+    if (response.pagination.has_more_items && response.pagination.continuation) {
+      getMyEvents(callback, events, page + 1, response.pagination.continuation);
+    } else {
+      callback(events);
+    }
   });
 }
 
@@ -242,65 +492,58 @@ function getMyEvents(callback, data, page, continuation) {
 // @data          {array}   Optional, data already downloaded and passed on for paging
 // @continuation  {string}  Continuation token for next page of data
 function getAttendees(organisationId, callback, data, page, continuation) {
-  checkTokens(() => {
-    const creds = JSON.parse(tableau.password);
-    const url = `https://www.eventbriteapi.com/v3/organizations/${organisationId}/attendees`;
-    let pg = page;
-    if (!page) {
-      pg = 1;
-    }
-    let params = '';
-    if (continuation) {
-      params = `?page=${pg}&continuation=${continuation}`;
-    }
-    const settings = {
-      url: `${proxyBase}/proxy${params}`,
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${creds.access_token}`,
-        'Target-URL': url,
-      },
-    };
+  const creds = JSON.parse(tableau.password);
+  let pg = page;
+  if (!page) {
+    pg = 1;
+  }
+  let params = `&org=${organisationId}`;
+  if (continuation) {
+    params += `&page=${pg}&continuation=${continuation}`;
+  }
+  const settings = {
+    url: `${serverBase}/api/organizations/attendees?token=${creds.access_token}${params}`,
+    method: 'GET',
+  };
 
-    $.ajax(settings).done((response) => {
-      let attendees = [];
-      if (data) {
-        attendees = data;
+  $.ajax(settings).done((response) => {
+    let attendees = [];
+    if (data) {
+      attendees = data;
+    }
+    if (response.attendees && response.attendees.length > 0) {
+      for (let i = 0; i < response.attendees.length; i += 1) {
+        const record = {};
+        const attendee = response.attendees[i];
+        record.id = attendee.id;
+        record.changed = convertDateTime(attendee.changed);
+        record.created = convertDateTime(attendee.created);
+        record.quantity = attendee.quantity;
+        record.first_name = attendee.profile.first_name;
+        record.last_name = attendee.profile.last_name;
+        record.company = attendee.profile.company;
+        record.name = attendee.profile.name;
+        record.email = attendee.profile.email;
+        record.job_title = attendee.profile.job_title;
+        record.checked_in = attendee.checked_in;
+        record.cancelled = attendee.cancelled;
+        record.refunded = attendee.refunded;
+        record.status = attendee.status;
+        record.ticket_class_name = attendee.ticket_class_name;
+        record.event_id = attendee.event_id;
+        record.order_id = attendee.order_id;
+        attendees.push(record);
       }
-      if (response.attendees && response.attendees.length > 0) {
-        for (let i = 0; i < response.attendees.length; i += 1) {
-          const record = {};
-          const attendee = response.attendees[i];
-          record.id = attendee.id;
-          record.changed = convertDateTime(attendee.changed);
-          record.created = convertDateTime(attendee.created);
-          record.quantity = attendee.quantity;
-          record.first_name = attendee.profile.first_name;
-          record.last_name = attendee.profile.last_name;
-          record.company = attendee.profile.company;
-          record.name = attendee.profile.name;
-          record.email = attendee.profile.email;
-          record.job_title = attendee.profile.job_title;
-          record.checked_in = attendee.checked_in;
-          record.cancelled = attendee.cancelled;
-          record.refunded = attendee.refunded;
-          record.status = attendee.status;
-          record.ticket_class_name = attendee.ticket_class_name;
-          record.event_id = attendee.event_id;
-          record.order_id = attendee.order_id;
-          attendees.push(record);
-        }
-      }
-      if (response.pagination.has_more_items && response.pagination.continuation) {
-        const currentUserCount = response.pagination.page_number * response.pagination.page_size;
-        const totalUserCount = response.pagination.page_count * response.pagination.page_size;
-        tableau.reportProgress(`Downloaded ${currentUserCount} of ${totalUserCount} attendees`);
-        getAttendees(organisationId, callback, attendees,
-          page + 1, response.pagination.continuation);
-      } else {
-        callback(attendees);
-      }
-    });
+    }
+    if (response.pagination.has_more_items && response.pagination.continuation) {
+      const currentUserCount = response.pagination.page_number * response.pagination.page_size;
+      const totalUserCount = response.pagination.page_count * response.pagination.page_size;
+      tableau.reportProgress(`Downloaded ${currentUserCount} of ${totalUserCount} attendees`);
+      getAttendees(organisationId, callback, attendees,
+        page + 1, response.pagination.continuation);
+    } else {
+      callback(attendees);
+    }
   });
 }
 
@@ -311,7 +554,6 @@ function getAttendees(organisationId, callback, data, page, continuation) {
 // **
 // START Tableau WDC Code
 // **
-tableau = require('./tableauwdc-2.3.latest.min.js');
 
 const ebConnector = tableau.makeConnector();
 
@@ -333,7 +575,7 @@ ebConnector.init = (initCallback) => {
           || tableau.phase === tableau.phaseEnum.authPhase) {
         if (!hasAuth) {
           if (tableau.password === undefined || tableau.password === '') {
-            tableau.password = tokens;
+            tableau.password = JSON.stringify(tokens);
           }
           tableau.submit();
         } else {
@@ -345,7 +587,7 @@ ebConnector.init = (initCallback) => {
     tableau.submit();
   } else {
     const settings = {
-      url: '/api/stats',
+      url: `${serverBase}/api/stats`,
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -366,14 +608,13 @@ ebConnector.init = (initCallback) => {
 
 // Define the schema
 ebConnector.getSchema = (schemaCallback) => {
-  console.log(tableau.password);
   schemaCallback(schema.tables, schema.joins);
 };
 
 // Download the data
 ebConnector.getData = (table, doneCallback) => {
   const settings = {
-    url: '/api/stats',
+    url: `${serverBase}/api/stats`,
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -386,33 +627,35 @@ ebConnector.getData = (table, doneCallback) => {
       console.log(response);
     })
     .always(() => {
-      if (table.tableInfo.id === 'myOrganisations') {
-        tableau.reportProgress('Getting my organisations');
-        getMyOrganisations((organisations) => {
-          table.appendRows(organisations);
-          doneCallback();
-        });
-      } else if (table.tableInfo.id === 'myEvents') {
-        tableau.reportProgress('Getting my events');
-        getMyEvents((events) => {
-          table.appendRows(events);
-          doneCallback();
-        });
-      } else if (table.tableInfo.id === 'myAttendees') {
-        tableau.reportProgress('Getting attendees');
-        getMyOrganisations((organisations) => {
-          async.each(organisations, (organisation, doneOrg) => {
-            tableau.reportProgress(`Getting attendees for organisation ${organisation.name}`);
-            getAttendees(organisation.id, (attendees) => {
-              table.appendRows(attendees);
-              doneOrg();
-            });
-          }, (err) => {
-            if (err) console.error(err);
+      checkTokens(() => {
+        if (table.tableInfo.id === 'myOrganisations') {
+          tableau.reportProgress('Getting my organisations');
+          getMyOrganisations((organisations) => {
+            table.appendRows(organisations);
             doneCallback();
           });
-        });
-      }
+        } else if (table.tableInfo.id === 'myEvents') {
+          tableau.reportProgress('Getting my events');
+          getMyEvents((events) => {
+            table.appendRows(events);
+            doneCallback();
+          });
+        } else if (table.tableInfo.id === 'myAttendees') {
+          tableau.reportProgress('Getting attendees');
+          getMyOrganisations((organisations) => {
+            async.each(organisations, (organisation, doneOrg) => {
+              tableau.reportProgress(`Getting attendees for organisation ${organisation.name}`);
+              getAttendees(organisation.id, (attendees) => {
+                table.appendRows(attendees);
+                doneOrg();
+              });
+            }, (err) => {
+              if (err) console.error(err);
+              doneCallback();
+            });
+          });
+        }
+      });
     });
 };
 
