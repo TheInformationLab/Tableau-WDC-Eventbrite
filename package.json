@@ -42,7 +42,6 @@
     "webpack-dev-server": "^3.1.10"
   },
   "dependencies": {
-    "String.prototype.endswith": "^0.2.0",
     "body-parser": "^1.18.3",
     "bootstrap": "^4.3.1",
     "cookies-js": "^1.2.3",
@@ -59,9 +58,10 @@
     "popper.js": "^1.14.6",
     "qwebchannel": "^5.9.0",
     "request": "^2.88.0",
+    "string.prototype.endswith": "^0.2.0",
     "url": "^0.11.0"
   },
   "config": {
-    "versionNumber": "2.3.1"
+    "versionNumber": "2.3.0"
   }
 }
