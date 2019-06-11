@@ -5,11 +5,6 @@
   "author": "Craig Bloodworth, The Information Lab",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.18.3",
-    "cors": "^2.8.5",
-    "express": "^4.16.4",
-    "micro": "^9.3.3",
-    "mongoose": "^5.3.15",
-    "request": "^2.88.0"
+    "mongodb-stitch-server-sdk": "^4.4.0",
   }
 }
