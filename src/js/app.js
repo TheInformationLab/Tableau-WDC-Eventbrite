@@ -353,7 +353,6 @@ function checkTokens(callback) {
 const ebConnector = tableau.makeConnector();
 
 ebConnector.init = (initCallback) => {
-  console.log('Init');
   tableau.authType = tableau.authTypeEnum.custom;
   tableau.connectionName = 'Eventbrite';
 
@@ -400,7 +399,9 @@ ebConnector.getSchema = (schemaCallback) => {
 ebConnector.getData = (table, doneCallback) => {
   recordStat('eventbrite', 'download')
     .then(() => {
+      tableau.log('Getting Data');
       checkTokens(() => {
+        tableau.log('Token Checked');
         const creds = JSON.parse(tableau.password);
         if (table.tableInfo.id === 'myOrganisations') {
           tableau.reportProgress('Getting my organisations');
@@ -410,6 +411,7 @@ ebConnector.getData = (table, doneCallback) => {
               doneCallback();
             });
         } else if (table.tableInfo.id === 'myEvents') {
+          tableau.log('Getting myEvents');
           tableau.reportProgress('Getting my events');
           getMyEvents(creds.access_token)
             .then((events) => {

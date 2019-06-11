@@ -5,13 +5,19 @@ const {
 
 const client = Stitch.initializeDefaultAppClient('til-wdc-dev-fwbxx');
 
-client.auth.logout();
-
 const auth = () => new Promise((resolve, reject) => {
-  client.auth
-    .loginWithCredential(new AnonymousCredential())
-    .then(resolve)
-    .catch(reject);
+  console.log(`User login status: ${client.auth.isLoggedIn}`);
+  if (client.auth.isLoggedIn) {
+    resolve();
+  } else {
+    client.auth
+      .loginWithCredential(new AnonymousCredential())
+      .then((user) => {
+        console.log(`Logged in as anonymous user with id: ${user.id}`);
+        resolve();
+      })
+      .catch(reject);
+  }
 });
 
 const recordStat = (wdc, action) => new Promise((resolve, reject) => auth()
